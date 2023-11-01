@@ -6,6 +6,7 @@ import 'package:pusher_manager/pusher_service/model/pusher_config.dart';
 class PusherProvider {
   PusherChannelsFlutter? _pusher;
   PusherProvider._() {
+    _pusher = PusherChannelsFlutter.getInstance();
     // apiKey = AppFlavor.type.apiKeyPusher;
     // _pusher = PusherChannelsFlutter.getInstance();
     // _pusher.init(
@@ -22,11 +23,10 @@ class PusherProvider {
     // _pusher.connect();
   }
 
-  static final PusherProvider _instance = PusherProvider._();
-  factory PusherProvider() => _instance;
+  static final PusherProvider instance = PusherProvider._();
 
   Future<void> init(PusherConfig pusherConfig) async {
-    _pusher = PusherChannelsFlutter.getInstance();
+    // _pusher = PusherChannelsFlutter.getInstance();
     if (_pusher?.connectionState == "DISCONNECTED") {
       await _pusher?.init(
         apiKey: pusherConfig.apiKey,

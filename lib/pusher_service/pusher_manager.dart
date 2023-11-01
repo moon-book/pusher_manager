@@ -18,11 +18,11 @@ class PusherManager {
   static final List<SubscribeEventModel> _listSubscribeEvent = [];
 
   static Future<void> _connectPusher(PusherConfig pusherConfig) async {
-    await PusherProvider().init(pusherConfig);
+    await PusherProvider.instance.init(pusherConfig);
   }
 
   static Future<void> disconnectPusher() async {
-    PusherProvider().disconnect();
+    PusherProvider.instance.disconnect();
   }
 
   static Future<void> addHandler(SubscribeEventModel subscribeEvent) async {
@@ -30,14 +30,14 @@ class PusherManager {
       for (int i = 0; i < _listSubscribeEvent.length; i++) {
         var element = _listSubscribeEvent[i];
         if (element.channelName == subscribeEvent.channelName) {
-          await PusherProvider().unsubscribe(subscribeEvent.channelName, "");
+          await PusherProvider.instance.unsubscribe(subscribeEvent.channelName, "");
           await Future.delayed(const Duration(seconds: 2));
         }
         _listSubscribeEvent.removeAt(i);
         i = i - 1;
       }
 
-      PusherProvider().subscribe(
+      PusherProvider.instance.subscribe(
         channelName: subscribeEvent.channelName,
         eventName: subscribeEvent.eventName,
         onEvent: (data) {
@@ -66,7 +66,7 @@ class PusherManager {
     for (int i = 0; i < _listSubscribeEvent.length; i++) {
       var element = _listSubscribeEvent[i];
       if (element.channelName == channelName) {
-        await PusherProvider().unsubscribe(channelName, "");
+        await PusherProvider.instance.unsubscribe(channelName, "");
         await Future.delayed(const Duration(seconds: 2));
       }
       _listSubscribeEvent.removeAt(i);
