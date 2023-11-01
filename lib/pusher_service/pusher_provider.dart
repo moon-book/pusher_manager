@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
-import 'package:pusher_manager/pusher_service/pusher/model/pusher_config.dart';
+import 'package:pusher_manager/pusher_service/model/pusher_config.dart';
 
 class PusherProvider {
   PusherChannelsFlutter? _pusher;

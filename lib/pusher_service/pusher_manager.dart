@@ -1,6 +1,7 @@
 import 'package:logger/logger.dart';
-import 'package:pusher_manager/pusher_service/pusher/model/pusher_config.dart';
-import 'package:pusher_manager/pusher_service/pusher/model/subscribe_event_model.dart';
+import 'package:pusher_manager/pusher_service/model/pusher_config.dart';
+import 'package:pusher_manager/pusher_service/model/subscribe_event_model.dart';
+
 import 'pusher_provider.dart';
 
 var logger = Logger(
