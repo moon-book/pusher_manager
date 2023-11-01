@@ -4,7 +4,7 @@ import 'package:pusher_manager/pusher_service/model/subscribe_event_model.dart';
 
 import 'pusher_provider.dart';
 
-var logger = Logger(
+var loggerPusher = Logger(
   printer: PrettyPrinter(),
 );
 
@@ -44,7 +44,7 @@ class PusherManager {
           try {
             subscribeEvent.onEvent(data).call();
           } catch (e) {
-            logger.e("error pusher  onEvent$e");
+            loggerPusher.e("error pusher  onEvent$e");
           }
         },
         onSubscriptionCount: (number) {
@@ -53,12 +53,12 @@ class PusherManager {
               subscribeEvent.onSubscriptionCount!(number).call();
             }
           } catch (e) {
-            logger.e("error pusher  onSubscriptionCount$e");
+            loggerPusher.e("error pusher  onSubscriptionCount$e");
           }
         },
       );
     } catch (e) {
-      logger.e("error pusher $e");
+      loggerPusher.e("error pusher $e");
     }
   }
 
