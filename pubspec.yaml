@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   dio: ^5.3.3
   pusher_channels_flutter: ^2.0.1
-  get: ^4.6.6
+  get: ^4.6.5
   logger: ^1.4.0
 dev_dependencies:
   flutter_test:
