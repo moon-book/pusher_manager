@@ -15,7 +15,7 @@ class PusherManager {
     _connectPusher(_pusherConfig!);
   }
 
-  final List<SubscribeEventModel> _listSubscribeEvent = [];
+  static final List<SubscribeEventModel> _listSubscribeEvent = [];
 
   static Future<void> _connectPusher(PusherConfig pusherConfig) async {
     await PusherProvider().init(pusherConfig);
@@ -25,7 +25,7 @@ class PusherManager {
     PusherProvider().disconnect();
   }
 
-  Future<void> addHandler(SubscribeEventModel subscribeEvent) async {
+  static Future<void> addHandler(SubscribeEventModel subscribeEvent) async {
     try {
       for (int i = 0; i < _listSubscribeEvent.length; i++) {
         var element = _listSubscribeEvent[i];
@@ -62,7 +62,7 @@ class PusherManager {
     }
   }
 
-  Future<void> removeHandler(String channelName, String eventName) async {
+  static Future<void> removeHandler(String channelName, String eventName) async {
     for (int i = 0; i < _listSubscribeEvent.length; i++) {
       var element = _listSubscribeEvent[i];
       if (element.channelName == channelName) {
