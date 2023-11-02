@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:logger/logger.dart';
 import 'package:pusher_manager/pusher_service/model/pusher_config.dart';
 import 'package:pusher_manager/pusher_service/model/subscribe_event_model.dart';
