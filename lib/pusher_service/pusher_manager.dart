@@ -10,9 +10,9 @@ var loggerPusher = Logger(
 
 class PusherManager {
   static PusherConfig? _pusherConfig;
-  static initPusherConfig(PusherConfig pusherConfig) {
+  static Future<void> initPusher(PusherConfig pusherConfig) async {
     _pusherConfig = pusherConfig;
-    _connectPusher(_pusherConfig!);
+    await _connectPusher(_pusherConfig!);
   }
 
   static final List<SubscribeEventModel> _listSubscribeEvent = [];
@@ -26,16 +26,15 @@ class PusherManager {
   }
 
   Future<void> trigger({
-    required String channelName,
-    required String eventName,
+    required SubscribeEventModel subscribeEventModel,
     required Map<String, dynamic> data,
     void Function()? onSuccess,
     void Function()? onError,
   }) async {
     try {
       await PusherProvider.instance.trigger(
-        channelName: channelName,
-        eventName: eventName,
+        channelName: subscribeEventModel.channelName,
+        eventName: subscribeEventModel.eventName,
         data: data,
       );
       onSuccess?.call();
@@ -61,11 +60,21 @@ class PusherManager {
       PusherProvider.instance.subscribe(
         channelName: subscribeEvent.channelName,
         eventName: subscribeEvent.eventName,
+        onSubscriptionSucceeded: (data) {
+          try {
+            if (subscribeEvent.onSubscriptionSucceeded != null) {
+              subscribeEvent.onSubscriptionSucceeded!(data).call();
+            }
+          } catch (e) {
+            loggerPusher.e("error pusher  onSubscriptionSucceeded:$e");
+            rethrow;
+          }
+        },
         onEvent: (data) {
           try {
             subscribeEvent.onEvent!(data).call();
           } catch (e) {
-            loggerPusher.e("error pusher  onEvent$e");
+            loggerPusher.e("error pusher  onEvent:$e");
             rethrow;
           }
         },
@@ -75,13 +84,13 @@ class PusherManager {
               subscribeEvent.onSubscriptionCount!(number).call();
             }
           } catch (e) {
-            loggerPusher.e("error pusher  onSubscriptionCount$e");
+            loggerPusher.e("error pusher  onSubscriptionCount:$e");
             rethrow;
           }
         },
       );
     } catch (e) {
-      loggerPusher.e("error pusher $e");
+      loggerPusher.e("error pusher : $e");
     }
   }
 

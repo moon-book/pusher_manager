@@ -48,11 +48,13 @@ class PusherProvider {
     required String eventName,
     required Function onEvent,
     Function(int)? onSubscriptionCount,
+    Function(dynamic)? onSubscriptionSucceeded,
   }) {
     _pusher?.subscribe(
       channelName: channelName,
       onEvent: onEvent,
       onSubscriptionCount: onSubscriptionCount,
+      onSubscriptionSucceeded: onSubscriptionSucceeded,
     );
   }
 

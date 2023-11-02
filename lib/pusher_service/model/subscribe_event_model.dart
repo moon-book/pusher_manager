@@ -3,13 +3,13 @@ class SubscribeEventModel {
   final String eventName;
   Function(dynamic)? onEvent;
   Function(int)? onSubscriptionCount;
-  Map<String, dynamic>? data;
+  Function(dynamic)? onSubscriptionSucceeded;
 
   SubscribeEventModel({
     required this.channelName,
     required this.eventName,
     this.onEvent,
-    this.data,
+    this.onSubscriptionSucceeded,
     this.onSubscriptionCount,
   });
 }
