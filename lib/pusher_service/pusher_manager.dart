@@ -32,9 +32,9 @@ class PusherManager {
         if (element.channelName == subscribeEvent.channelName) {
           await PusherProvider.instance.unsubscribe(subscribeEvent.channelName, "");
           await Future.delayed(const Duration(seconds: 2));
+          _listSubscribeEvent.removeAt(i);
+          i = i - 1;
         }
-        _listSubscribeEvent.removeAt(i);
-        i = i - 1;
       }
       _listSubscribeEvent.add(subscribeEvent);
       PusherProvider.instance.subscribe(
