@@ -36,7 +36,7 @@ class PusherManager {
         _listSubscribeEvent.removeAt(i);
         i = i - 1;
       }
-
+      _listSubscribeEvent.add(subscribeEvent);
       PusherProvider.instance.subscribe(
         channelName: subscribeEvent.channelName,
         eventName: subscribeEvent.eventName,
