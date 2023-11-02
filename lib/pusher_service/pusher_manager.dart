@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:logger/logger.dart';
 import 'package:pusher_manager/pusher_service/model/pusher_config.dart';
 import 'package:pusher_manager/pusher_service/model/subscribe_event_model.dart';
@@ -25,7 +27,24 @@ class PusherManager {
     PusherProvider.instance.disconnect();
   }
 
-  static Future<void> addHandler(SubscribeEventModel subscribeEvent) async {
+  Future<void> trigger({
+    required String channelName,
+    required String eventName,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      await PusherProvider.instance.trigger(
+        channelName: channelName,
+        eventName: eventName,
+        data: data,
+      );
+    } catch (e) {
+      loggerPusher.e("error push $e");
+      rethrow;
+    }
+  }
+
+  static Future<void> subscribe(SubscribeEventModel subscribeEvent) async {
     try {
       for (int i = 0; i < _listSubscribeEvent.length; i++) {
         var element = _listSubscribeEvent[i];
@@ -42,9 +61,10 @@ class PusherManager {
         eventName: subscribeEvent.eventName,
         onEvent: (data) {
           try {
-            subscribeEvent.onEvent(data).call();
+            subscribeEvent.onEvent!(data).call();
           } catch (e) {
             loggerPusher.e("error pusher  onEvent$e");
+            rethrow;
           }
         },
         onSubscriptionCount: (number) {
@@ -54,6 +74,7 @@ class PusherManager {
             }
           } catch (e) {
             loggerPusher.e("error pusher  onSubscriptionCount$e");
+            rethrow;
           }
         },
       );
@@ -62,7 +83,7 @@ class PusherManager {
     }
   }
 
-  static Future<void> removeHandler(String channelName, String eventName) async {
+  static Future<void> unsubscribe(String channelName, String eventName) async {
     for (int i = 0; i < _listSubscribeEvent.length; i++) {
       var element = _listSubscribeEvent[i];
       if (element.channelName == channelName) {

@@ -68,10 +68,18 @@ class PusherProvider {
     }
   }
 
-  Future<void> push({required String channelName, required String eventName, required Map<String, dynamic> data}) async {
+  Future<void> trigger({
+    required String channelName,
+    required String eventName,
+    required Map<String, dynamic> data,
+  }) async {
     try {
       await _pusher?.trigger(
-        PusherEvent(channelName: channelName, eventName: eventName, data: jsonEncode(data)),
+        PusherEvent(
+          channelName: channelName,
+          eventName: eventName,
+          data: jsonEncode(data),
+        ),
       );
     } catch (e) {
       rethrow;
