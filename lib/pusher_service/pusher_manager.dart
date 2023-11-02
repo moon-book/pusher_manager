@@ -63,7 +63,7 @@ class PusherManager {
         onSubscriptionSucceeded: (data) {
           try {
             if (subscribeEvent.onSubscriptionSucceeded != null) {
-              subscribeEvent.onSubscriptionSucceeded!(data).call();
+              subscribeEvent.onSubscriptionSucceeded?.call(data);
             }
           } catch (e) {
             loggerPusher.e("error pusher  onSubscriptionSucceeded:$e");
@@ -72,7 +72,7 @@ class PusherManager {
         },
         onEvent: (data) {
           try {
-            subscribeEvent.onEvent!(data).call();
+            subscribeEvent.onEvent?.call(data);
           } catch (e) {
             loggerPusher.e("error pusher  onEvent:$e");
             rethrow;
@@ -81,7 +81,7 @@ class PusherManager {
         onSubscriptionCount: (number) {
           try {
             if (subscribeEvent.onSubscriptionCount != null) {
-              subscribeEvent.onSubscriptionCount!(number).call();
+              subscribeEvent.onSubscriptionCount?.call(number);
             }
           } catch (e) {
             loggerPusher.e("error pusher  onSubscriptionCount:$e");
