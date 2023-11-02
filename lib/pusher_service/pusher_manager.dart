@@ -31,6 +31,8 @@ class PusherManager {
     required String channelName,
     required String eventName,
     required Map<String, dynamic> data,
+    void Function()? onSuccess,
+    void Function()? onError,
   }) async {
     try {
       await PusherProvider.instance.trigger(
@@ -38,8 +40,10 @@ class PusherManager {
         eventName: eventName,
         data: data,
       );
+      onSuccess?.call();
     } catch (e) {
-      loggerPusher.e("error push $e");
+      onError?.call();
+      loggerPusher.e("error trigger $e");
       rethrow;
     }
   }
