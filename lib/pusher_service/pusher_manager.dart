@@ -95,14 +95,13 @@ class PusherManager {
   }
 
   static Future<void> unsubscribe(String channelName, String eventName) async {
-    for (int i = 0; i < _listSubscribeEvent.length; i++) {
+    for (int i = _listSubscribeEvent.length - 1; i >= 0; i--) {
       var element = _listSubscribeEvent[i];
       if (element.channelName == channelName) {
         await PusherProvider.instance.unsubscribe(channelName, "");
         await Future.delayed(const Duration(seconds: 2));
+        _listSubscribeEvent.removeAt(i);
       }
-      _listSubscribeEvent.removeAt(i);
-      i = i - 1;
     }
   }
 }
