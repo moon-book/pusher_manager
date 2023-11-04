@@ -47,15 +47,7 @@ class PusherManager {
 
   static Future<void> subscribe(SubscribeEventModel subscribeEvent) async {
     try {
-      for (int i = 0; i < _listSubscribeEvent.length; i++) {
-        var element = _listSubscribeEvent[i];
-        if (element.channelName == subscribeEvent.channelName) {
-          await PusherProvider.instance.unsubscribe(subscribeEvent.channelName, "");
-          await Future.delayed(const Duration(seconds: 2));
-          _listSubscribeEvent.removeAt(i);
-          i = i - 1;
-        }
-      }
+      await unsubscribe(subscribeEvent.channelName, subscribeEvent.eventName);
       _listSubscribeEvent.add(subscribeEvent);
       PusherProvider.instance.subscribe(
         channelName: subscribeEvent.channelName,
