@@ -62,9 +62,7 @@ class PusherManager {
         },
         onEvent: (data) {
           try {
-            if (data.data != null && data.data.toString() != "{}") {
-              subscribeEvent.onEvent?.call(data);
-            }
+            subscribeEvent.onEvent?.call(data);
           } catch (e) {
             loggerPusher.e("error pusher  onEvent:$e");
             rethrow;
