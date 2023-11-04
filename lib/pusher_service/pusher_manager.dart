@@ -15,7 +15,7 @@ class PusherManager {
     await _connectPusher(_pusherConfig!);
   }
 
-  static final List<SubscribeEventModel> _listSubscribeEvent = [];
+  static final Map<String, SubscribeEventModel> _mapSubscribeEvent = {};
 
   static Future<void> _connectPusher(PusherConfig pusherConfig) async {
     await PusherProvider.instance.init(pusherConfig);
@@ -48,15 +48,13 @@ class PusherManager {
   static Future<void> subscribe(SubscribeEventModel subscribeEvent) async {
     try {
       await unsubscribe(subscribeEvent.channelName, subscribeEvent.eventName);
-      _listSubscribeEvent.add(subscribeEvent);
+      _mapSubscribeEvent[subscribeEvent.channelName] = subscribeEvent;
       PusherProvider.instance.subscribe(
         channelName: subscribeEvent.channelName,
         eventName: subscribeEvent.eventName,
         onSubscriptionSucceeded: (data) {
           try {
-            if (subscribeEvent.onSubscriptionSucceeded != null) {
-              subscribeEvent.onSubscriptionSucceeded?.call(data);
-            }
+            subscribeEvent.onSubscriptionSucceeded?.call(data);
           } catch (e) {
             loggerPusher.e("error pusher  onSubscriptionSucceeded:$e");
             rethrow;
@@ -72,9 +70,7 @@ class PusherManager {
         },
         onSubscriptionCount: (number) {
           try {
-            if (subscribeEvent.onSubscriptionCount != null) {
-              subscribeEvent.onSubscriptionCount?.call(number);
-            }
+            subscribeEvent.onSubscriptionCount?.call(number);
           } catch (e) {
             loggerPusher.e("error pusher  onSubscriptionCount:$e");
             rethrow;
@@ -87,13 +83,9 @@ class PusherManager {
   }
 
   static Future<void> unsubscribe(String channelName, String eventName) async {
-    for (int i = _listSubscribeEvent.length - 1; i >= 0; i--) {
-      var element = _listSubscribeEvent[i];
-      if (element.channelName == channelName) {
-        await PusherProvider.instance.unsubscribe(channelName, "");
-        await Future.delayed(const Duration(seconds: 2));
-        _listSubscribeEvent.removeAt(i);
-      }
+    if (_mapSubscribeEvent[channelName] != null) {
+      await PusherProvider.instance.unsubscribe(channelName, "");
+      _mapSubscribeEvent.remove(channelName);
     }
   }
 }
