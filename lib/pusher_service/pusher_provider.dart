@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:pusher_manager/pusher_service/model/pusher_config.dart';
 
@@ -32,10 +33,10 @@ class PusherProvider {
         apiKey: pusherConfig.apiKey,
         cluster: pusherConfig.cluster,
         authEndpoint: pusherConfig.authEndpoint,
-        // onAuthorizer: (channelName, socketId, data) async {
-        //   final response = await Dio().post(authEndpoint, data: "socket_id=$socketId&channel_name=$channelName");
-        //   return jsonDecode(response.data);
-        // },
+        onAuthorizer: (channelName, socketId, data) async {
+          final response = await Dio().post(pusherConfig.authEndpoint, data: "socket_id=$socketId&channel_name=$channelName");
+          return jsonDecode(response.data);
+        },
         maxReconnectGapInSeconds: 10,
         maxReconnectionAttempts: 99999999999999,
       );
