@@ -37,7 +37,7 @@ dependencies:
   pusher_channels_flutter: 
     git:
       url: git@github.com:moon-book/pusher-channels-flutter.git
-      ref: fix-parse-data-web
+      ref: pusher-web
   logger: ^1.4.0
   dio: ^5.3.3
 dev_dependencies:
