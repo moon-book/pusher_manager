@@ -148,8 +148,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: web
-      resolved-ref: aa52dc5647e029ffc4ff22936447ddcb7d9bab77
+      ref: fix-parse-data-web
+      resolved-ref: d1fcdd1ebfb5d8a0027bf9d130997d61941c3031
       url: "git@github.com:moon-book/pusher-channels-flutter.git"
     source: git
     version: "2.2.0"
