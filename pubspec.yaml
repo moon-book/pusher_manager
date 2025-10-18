@@ -38,7 +38,7 @@ dependencies:
       url: https://github.com/moon-book/pusher-channels-flutter
       ref: master
 
-  uuid: ^3.0.1
+  uuid: ^4.4.2
   logger: ^1.4.0
 dev_dependencies:
   flutter_test:
